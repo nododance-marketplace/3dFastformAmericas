@@ -34,3 +34,5 @@ next-env.d.ts
 # originals are kept locally only.
 /public/New Videos/
 /public/New Product Images/
+/public/Profile Photo/
+/public/Photos/
