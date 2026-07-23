@@ -19,7 +19,7 @@ const chakraPetch = Chakra_Petch({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://envishonlabs3d.com"),
+  metadataBase: new URL("https://3d-fastform-americas.vercel.app"),
   title: {
     default: "FastForm Americas — Industrial Metal 3D Printers",
     template: "%s · FastForm Americas",
@@ -49,13 +49,13 @@ const orgSchema = {
   name: "FastForm Americas",
   // TODO: swap to the FastForm Americas domain + contact once provisioned.
   email: "envishonlabs3d@gmail.com",
-  telephone: "+19804022520",
+  telephone: "+19803192013",
   areaServed: "Americas",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "sales",
     email: "envishonlabs3d@gmail.com",
-    telephone: "+19804022520",
+    telephone: "+19803192013",
   },
 };
 

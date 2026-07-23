@@ -2,17 +2,10 @@
 
 import Link from "next/link";
 import type { Product } from "@/lib/types";
-import {
-  products,
-  CATEGORY_META,
-  formatPrice,
-} from "@/data/products";
-import { getAccessoryConfig } from "@/data/accessories";
+import { products, CATEGORY_META } from "@/data/products";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductImage } from "@/components/ui/ProductImage";
 import { CategoryBadge } from "@/components/product/CategoryBadge";
-import { AccessoryConfigurator } from "@/components/product/AccessoryConfigurator";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { useI18n } from "@/i18n/I18nProvider";
 import {
   ArrowRightIcon,
@@ -39,9 +32,6 @@ export function ProductDetail({ product }: { product: Product }) {
         !p.comingSoon,
     )
     .slice(0, 3);
-
-  const accessoryConfig = getAccessoryConfig(product.slug);
-  const isBuyable = product.priceCents != null && !product.inquiryOnly;
 
   const specLine = tp(product.slug, "specLine") ?? product.specLine;
   const description = tp(product.slug, "description") ?? product.description;
@@ -97,96 +87,20 @@ export function ProductDetail({ product }: { product: Product }) {
             {description}
           </p>
 
-          {isBuyable && accessoryConfig && accessoryConfig.mode !== "tbd" ? (
-            <AccessoryConfigurator
-              product={product}
-              config={accessoryConfig}
-              buyable={isBuyable}
-            />
-          ) : product.priceCents != null && !product.inquiryOnly ? (
-            <>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <span className="font-heading text-2xl text-titanium">
-                  {formatPrice(product.priceCents)}
-                </span>
-                <AddToCartButton product={product} />
-              </div>
-              <p className="mt-3 text-xs text-steel">
-                {t("product.secureNote")}{" "}
-                <Link
-                  href="/contact"
-                  className="text-accent hover:text-accent-signal"
-                >
-                  {t("product.contactTeam")}
-                </Link>
-                .
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                {product.priceCents != null ? (
-                  <span className="font-heading text-2xl text-titanium">
-                    {t("product.from", { price: formatPrice(product.priceCents) })}
-                  </span>
-                ) : (
-                  <span className="text-sm uppercase tracking-[0.2em] text-steel">
-                    {t("product.pricingOnRequest")}
-                  </span>
-                )}
-                <Link href="/contact" className="btn-spark group px-7 py-3.5 text-sm">
-                  {t("product.talkToSales")}
-                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
-              <p className="mt-3 text-xs text-steel">
-                {product.inquiryOnly
-                  ? t("product.inquiryNote")
-                  : t("product.configuredNote")}
-              </p>
-            </>
-          )}
-
-          {/* Downloadable quotation PDF */}
-          {product.quotePdf && (
-            <a
-              href={product.quotePdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/[0.06] px-6 py-3 text-sm font-medium text-accent transition-colors hover:border-accent hover:bg-accent/15"
-            >
+          {/* Inquiry CTA — no public pricing; quotes are handled by sales. */}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link href="/contact" className="btn-spark group px-7 py-3.5 text-sm">
               <FileTextIcon className="h-4 w-4" />
-              {t("product.viewQuote")}
-            </a>
-          )}
-
-          {/* Competitor price comparison */}
-          {product.compareAtCents != null && product.priceCents != null && (
-            <div className="mt-5 rounded-xl border border-accent/25 bg-accent/[0.05] px-5 py-4">
-              <p className="text-sm leading-relaxed text-titanium">
-                {t("product.competitor")}{" "}
-                <span className="text-steel line-through">
-                  {formatPrice(product.compareAtCents)}
-                </span>
-                . {t("product.save")}{" "}
-                <span className="font-semibold text-accent">
-                  {formatPrice(product.compareAtCents - product.priceCents)}
-                </span>{" "}
-                {t("product.withFastform")}
-              </p>
-              {product.compareUrl && (
-                <a
-                  href={product.compareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1.5 inline-flex items-center gap-1 text-xs text-accent transition-colors hover:text-accent-signal"
-                >
-                  {t("product.seePrice")}
-                  <ArrowRightIcon className="h-3.5 w-3.5" />
-                </a>
-              )}
-            </div>
-          )}
+              {t("product.requestQuote")}
+            </Link>
+            <Link href="/contact" className="btn-ghost group px-7 py-3.5 text-sm">
+              {t("product.talkToSales")}
+              <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+          <p className="mt-3 max-w-prose text-xs text-steel">
+            {t("product.inquiryNote")}
+          </p>
 
           {/* Downloadable spec sheet */}
           {product.datasheet && (

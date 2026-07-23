@@ -6,17 +6,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * ─────────────────────────────────────────────────────────────────────────
  *  HOME — SCROLL-SCRUBBED HEADER SEQUENCE
  * ─────────────────────────────────────────────────────────────────────────
- *  A cinematic intro: 56 frames that zoom into the FastForm Americas machine
- *  and dissolve to solid blue. Drawn to a <canvas>, scrubbed by scroll (same
- *  technique as the shop hero). COVER-fit so the frame fills the viewport with
- *  no letterbox — and because the last frame is solid blue, the section that
- *  follows (same blue) fades in seamlessly.
+ *  A cinematic intro: frames that zoom into the FastForm Americas machine and
+ *  dissolve to solid blue, scrubbed by scroll.
+ *
+ *  Fit: COVER on landscape (desktop) so it fills edge to edge; CONTAIN on
+ *  portrait (mobile) so the whole machine fits the 9:16 screen instead of being
+ *  cropped/zoomed. The sticky background tracks each frame's edge colour, so the
+ *  contain letterbox is invisible (white → blue) and the blue final frame flows
+ *  seamlessly into the <AmericasSection> below.
  * ─────────────────────────────────────────────────────────────────────────
  */
 
 const FRAME_COUNT = 70;
-/** Solid blue the sequence ends on — sampled from the final frame. Kept in
- *  sync with the <AmericasSection> background so the transition is seamless. */
+/** Solid blue the sequence ends on — kept in sync with <AmericasSection>. */
 export const SEQUENCE_END_BLUE = "#2c4a86";
 const framePath = (i: number) =>
   `/header-rotation/frame-${String(i + 1).padStart(2, "0")}.jpg`;
@@ -26,14 +28,17 @@ const clamp = (v: number, lo: number, hi: number) =>
 
 export function HeaderSequence() {
   const sectionRef = useRef<HTMLElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
+  const edgeRef = useRef<string[]>([]); // per-frame edge colour for the letterbox
+  const sampleCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const frameRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const [loaded, setLoaded] = useState(0);
 
-  /** Draw the current frame, COVER-fit + DPR-scaled. */
+  /** Draw the current frame — COVER on landscape, CONTAIN on portrait. */
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     const img = imagesRef.current[frameRef.current];
@@ -52,11 +57,21 @@ export function HeaderSequence() {
       canvas.width = Math.round(cw * dpr);
       canvas.height = Math.round(ch * dpr);
     }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, cw, ch);
-    const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+
+    // Match the sticky backdrop to this frame's edge so the contain letterbox
+    // (and any sub-pixel gaps) blend in — white early, blue at the end.
+    const edge = edgeRef.current[frameRef.current];
+    if (edge && stickyRef.current) stickyRef.current.style.backgroundColor = edge;
+
+    const portrait = ch >= cw; // phones / narrow tablets
+    const scale = portrait
+      ? Math.min(cw / img.naturalWidth, ch / img.naturalHeight) // contain
+      : Math.max(cw / img.naturalWidth, ch / img.naturalHeight); // cover
     const w = img.naturalWidth * scale;
     const h = img.naturalHeight * scale;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
   }, []);
 
@@ -68,14 +83,35 @@ export function HeaderSequence() {
     });
   }, [draw]);
 
-  // Preload every frame (handlers before src + already-complete handling).
+  // Sample a frame's top-left colour (the background) for its letterbox fill.
+  const sampleEdge = useCallback((img: HTMLImageElement, i: number) => {
+    let oc = sampleCanvasRef.current;
+    if (!oc) {
+      oc = document.createElement("canvas");
+      oc.width = 1;
+      oc.height = 1;
+      sampleCanvasRef.current = oc;
+    }
+    try {
+      const octx = oc.getContext("2d", { willReadFrequently: true });
+      if (!octx) return;
+      octx.drawImage(img, 0, 0, 8, 8, 0, 0, 1, 1);
+      const d = octx.getImageData(0, 0, 1, 1).data;
+      edgeRef.current[i] = `rgb(${d[0]},${d[1]},${d[2]})`;
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  // Preload frames (handlers before src + already-complete handling).
   useEffect(() => {
     let mounted = true;
     let count = 0;
     const imgs: HTMLImageElement[] = new Array(FRAME_COUNT);
     imagesRef.current = imgs;
-    const onReady = (i: number) => {
+    const onReady = (img: HTMLImageElement, i: number) => {
       if (!mounted) return;
+      if (img.naturalWidth > 0) sampleEdge(img, i);
       count += 1;
       setLoaded(count);
       if (i === frameRef.current) scheduleDraw();
@@ -83,16 +119,16 @@ export function HeaderSequence() {
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new window.Image();
       img.decoding = "async";
-      img.onload = () => onReady(i);
-      img.onerror = () => onReady(i);
+      img.onload = () => onReady(img, i);
+      img.onerror = () => onReady(img, i);
       img.src = framePath(i);
       imgs[i] = img;
-      if (img.complete && img.naturalWidth > 0) onReady(i);
+      if (img.complete && img.naturalWidth > 0) onReady(img, i);
     }
     return () => {
       mounted = false;
     };
-  }, [scheduleDraw]);
+  }, [scheduleDraw, sampleEdge]);
 
   // Redraw when the canvas gets a real size.
   useEffect(() => {
@@ -107,7 +143,7 @@ export function HeaderSequence() {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
-      frameRef.current = FRAME_COUNT - 1; // land on the final blue frame
+      frameRef.current = FRAME_COUNT - 1;
       scheduleDraw();
       return;
     }
@@ -140,8 +176,9 @@ export function HeaderSequence() {
       className="relative -mt-16 h-[200vh] w-full sm:h-[235vh]"
     >
       <div
+        ref={stickyRef}
         className="sticky top-0 h-[100svh] w-full overflow-hidden"
-        style={{ backgroundColor: SEQUENCE_END_BLUE }}
+        style={{ backgroundColor: "#ffffff" }}
       >
         <canvas
           ref={canvasRef}
@@ -159,23 +196,25 @@ export function HeaderSequence() {
           aria-hidden="true"
         />
 
-        {/* scroll cue — fades as the sequence plays */}
+        {/* scroll cue — prominent, so first-time visitors know to scroll */}
         <div
           ref={cueRef}
-          className="pointer-events-none absolute bottom-7 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-titanium/70 motion-reduce:hidden"
+          className="pointer-events-none absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 sm:bottom-24 motion-reduce:hidden"
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em]">
-            Scroll
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-titanium/80">
+            Scroll to explore
           </span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="animate-float">
-            <path
-              d="M12 4v16M6 14l6 6 6-6"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <span className="flex h-12 w-12 animate-float items-center justify-center rounded-full border border-titanium/25 bg-white/75 shadow-md backdrop-blur">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="text-titanium">
+              <path
+                d="M12 5v14M6 13l6 6 6-6"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
         </div>
       </div>
     </section>

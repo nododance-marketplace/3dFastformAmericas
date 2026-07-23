@@ -139,6 +139,7 @@ const en: Dict = {
   product: {
     breadcrumb: "Shop",
     pricingOnRequest: "Pricing on request",
+    requestQuote: "Request a quotation",
     talkToSales: "Talk to Sales",
     from: "From {price}",
     secureNote:
@@ -381,6 +382,7 @@ const es: Dict = {
   product: {
     breadcrumb: "Tienda",
     pricingOnRequest: "Precio a consultar",
+    requestQuote: "Solicitar cotización",
     talkToSales: "Hablar con ventas",
     from: "Desde {price}",
     secureNote:
@@ -623,6 +625,7 @@ const pt: Dict = {
   product: {
     breadcrumb: "Loja",
     pricingOnRequest: "Preço sob consulta",
+    requestQuote: "Solicitar cotação",
     talkToSales: "Falar com vendas",
     from: "A partir de {price}",
     secureNote:
