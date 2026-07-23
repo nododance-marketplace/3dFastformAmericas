@@ -76,6 +76,29 @@ export function AboutFounder() {
             <p>{t("about.p4")}</p>
           </div>
 
+          {/* Founder intro video — click to play, with sound */}
+          <figure className="mt-9">
+            <div className="overflow-hidden rounded-2xl border border-titanium/[0.08] bg-base-900 shadow-depth">
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video
+                className="aspect-video w-full"
+                controls
+                playsInline
+                preload="none"
+                poster="/video/founder-intro-poster.jpg"
+                aria-label={t("about.watch")}
+              >
+                <source src="/video/founder-intro.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption className="mt-3 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              {t("about.watch")}
+            </figcaption>
+          </figure>
+
           <div className="mt-9 grid gap-5 sm:grid-cols-2">
             {proof.map((ph) => (
               <figure

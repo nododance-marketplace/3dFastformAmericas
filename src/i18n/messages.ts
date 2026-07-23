@@ -101,6 +101,7 @@ const en: Dict = {
     p4: "It's a hands-on, relationship-first approach to a category that usually hides behind distributors — and it's why FastForm Americas delivers machines, pricing, and support most suppliers can't.",
     ceoCaption: "With Liu Shuai, the manufacturer's CEO",
     factoryCaption: "On the factory floor with the FastForm engineering team",
+    watch: "A word from the founder",
   },
   shopHero: {
     line: "The FastForm line",
@@ -342,6 +343,7 @@ const es: Dict = {
     p4: "Es un enfoque práctico y basado en relaciones para una categoría que suele esconderse detrás de distribuidores — y por eso FastForm Americas ofrece máquinas, precios y soporte que la mayoría de los proveedores no puede.",
     ceoCaption: "Con Liu Shuai, CEO del fabricante",
     factoryCaption: "En la planta con el equipo de ingeniería de FastForm",
+    watch: "Un mensaje del fundador",
   },
   shopHero: {
     line: "La línea FastForm",
@@ -583,6 +585,7 @@ const pt: Dict = {
     p4: "É uma abordagem prática e baseada em relacionamento para uma categoria que costuma se esconder atrás de distribuidores — e é por isso que a FastForm Americas entrega máquinas, preços e suporte que a maioria dos fornecedores não consegue.",
     ceoCaption: "Com Liu Shuai, CEO do fabricante",
     factoryCaption: "No chão de fábrica com a equipe de engenharia da FastForm",
+    watch: "Uma palavra do fundador",
   },
   shopHero: {
     line: "A linha FastForm",
