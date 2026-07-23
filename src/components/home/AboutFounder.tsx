@@ -39,7 +39,7 @@ export function AboutFounder() {
             <div className="relative aspect-[3/4] w-full">
               <Image
                 src="/team/founder.jpg"
-                alt="Moisés Castillo — Founder & President of FastForm Americas"
+                alt="Moisés Castillo — Head of Americas Operations at FastForm Americas"
                 fill
                 sizes="(max-width: 1024px) 90vw, 34vw"
                 className="object-cover"
