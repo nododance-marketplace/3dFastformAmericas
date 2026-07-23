@@ -1,0 +1,319 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-base text-steel font-body antialiased;
+    background-image: radial-gradient(
+      1200px 600px at 50% -10%,
+      rgba(36, 75, 150, 0.06),
+      rgba(255, 255, 255, 0) 60%
+    );
+    background-attachment: fixed;
+  }
+
+  /* Tabular figures everywhere numbers matter (spec tables, prices, counts) */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: rgba(36, 75, 150, 0.18);
+    color: #0e2036;
+  }
+
+  /* Blue focus ring for keyboard users — accessible + on-brand. */
+  :focus-visible {
+    outline: 2px solid #244b96;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Custom scrollbar — light, subtle */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #eef2f7;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #c4cfdd;
+    border-radius: 9999px;
+    border: 2px solid #eef2f7;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a7b6c9;
+  }
+}
+
+@layer components {
+  /* Frosted panel — light surface with a hairline edge + soft depth */
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border border-titanium/10;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 20px 50px -24px rgba(15, 30, 54, 0.22);
+  }
+
+  /* Hairline divider */
+  .hairline {
+    @apply border-t border-titanium/[0.10];
+  }
+
+  /* Metallic/ink text treatment — deep navy heading finish */
+  .text-metallic {
+    background: linear-gradient(180deg, #12294a 0%, #0e2036 50%, #23324a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Blue accent text — "the spark". For single emphasized words only. */
+  .text-spark {
+    background: linear-gradient(180deg, #2e63c8 0%, #244b96 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Primary action — accent, the thing you want clicked. */
+  .btn-spark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent font-medium text-base transition-all duration-300 hover:bg-accent-signal active:scale-[0.98] active:translate-y-px;
+  }
+
+  /* Shimmering skeleton placeholder */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(38, 40, 45, 0.6) 25%,
+      rgba(58, 61, 68, 0.8) 50%,
+      rgba(38, 40, 45, 0.6) 75%
+    );
+    background-size: 200% 100%;
+    @apply animate-shimmer;
+  }
+
+  /* ── Cursor-tracked spotlight card ──────────────────────────────────
+     A hairline panel whose border + surface illuminate under the cursor.
+     Drives from --mx / --my custom props set by the SpotlightCard component. */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      220px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(46, 99, 200, 0.55),
+      rgba(36, 75, 150, 0.14) 40%,
+      transparent 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(46, 99, 200, 0.10),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* Technical blueprint grid — the "HUD" texture behind data sections */
+  .tech-grid {
+    background-image: linear-gradient(
+        rgba(14, 32, 54, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba(14, 32, 54, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 70% at 50% 40%,
+      #000 40%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 80% 70% at 50% 40%,
+      #000 40%,
+      transparent 100%
+    );
+  }
+
+  /* Small uppercase technical label (kicker) */
+  .kicker {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.28em] text-accent;
+  }
+
+  /* Outline/ghost button — pairs with .btn-spark */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-titanium/20 font-medium text-titanium transition-all duration-300 hover:border-accent/60 hover:bg-accent/[0.06] hover:text-accent active:scale-[0.98];
+  }
+
+  /* ── HUD instrumentation ─────────────────────────────────────────────
+     Small, dim, mono. The page should feel like it has instrumentation —
+     never like it's shouting. Graphite/steel only; violet stays reserved. */
+
+  /* Hairline rule with tick marks, like a machined scale. */
+  .rule-ticks {
+    height: 5px;
+    background-image:
+      linear-gradient(rgba(14, 32, 54, 0.12), rgba(14, 32, 54, 0.12)),
+      repeating-linear-gradient(
+        90deg,
+        rgba(14, 32, 54, 0.22) 0 1px,
+        transparent 1px 24px
+      );
+    background-size:
+      100% 1px,
+      100% 5px;
+    background-position: bottom, bottom;
+    background-repeat: no-repeat, repeat-x;
+  }
+
+  /* Bracketed spec chip: [ SLM · 500W · 20–120µm ] */
+  .hud-chip {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.14em] text-graphite;
+  }
+  .hud-chip::before {
+    content: "[";
+    @apply text-steel/50;
+  }
+  .hud-chip::after {
+    content: "]";
+    @apply text-steel/50;
+  }
+}
+
+@layer utilities {
+  /* Accessible skip link — visible only when focused */
+  .skip-link {
+    position: fixed;
+    top: -60px;
+    left: 16px;
+    z-index: 100;
+    border-radius: 9999px;
+    background: #244b96;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus {
+    top: 16px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* ── Edge-fade / feather for video ───────────────────────────────────
+     Softens the hard rectangular cut-off so footage dissolves into the
+     near-black page instead of sitting in a card. Two crossed linear
+     gradients intersect to feather all four edges; the center stays fully
+     opaque. Pairs with a matching bg-base so the transparent edge reads as
+     "fading into the background". */
+  .edge-fade {
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000 8%,
+        #000 92%,
+        transparent 100%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 9%,
+        #000 91%,
+        transparent 100%
+      );
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000 8%,
+        #000 92%,
+        transparent 100%
+      ),
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 9%,
+        #000 91%,
+        transparent 100%
+      );
+    mask-composite: intersect;
+  }
+
+  /* Sides + top feather, gentle bottom — for players with visible controls
+     so the control bar stays legible. */
+  .edge-fade-b {
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000 7%,
+        #000 93%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 98%, #000 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000 7%,
+        #000 93%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 98%, #000 100%);
+    mask-composite: intersect;
+  }
+}
+
+/* Respect users who prefer less motion — kill the ambient loops. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-scanline,
+  .animate-pulse-ring,
+  .animate-marquee,
+  .animate-shimmer {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
