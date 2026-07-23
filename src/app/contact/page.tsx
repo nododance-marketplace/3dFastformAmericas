@@ -55,10 +55,10 @@ export default function ContactPage() {
                 </dt>
                 <dd className="mt-1">
                   <a
-                    href="mailto:envishonlabs3d@gmail.com"
+                    href="mailto:moisesjdelcastillo@gmail.com"
                     className="text-titanium transition-colors hover:text-accent"
                   >
-                    envishonlabs3d@gmail.com
+                    moisesjdelcastillo@gmail.com
                   </a>
                 </dd>
               </div>
@@ -90,7 +90,7 @@ export default function ContactPage() {
                 <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-steel">
                   <T k="contact.website" />
                 </dt>
-                <dd className="mt-1">
+                <dd className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1">
                   <a
                     href="https://envishonlabs3d.com"
                     target="_blank"
@@ -99,6 +99,9 @@ export default function ContactPage() {
                   >
                     envishonlabs3d.com
                   </a>
+                  <span className="rounded-full border border-accent/25 bg-accent/[0.06] px-2.5 py-0.5 text-[11px] font-medium text-accent">
+                    <T k="contact.websiteNote" />
+                  </span>
                 </dd>
               </div>
               <div>

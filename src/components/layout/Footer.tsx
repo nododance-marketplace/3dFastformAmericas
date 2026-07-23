@@ -26,10 +26,10 @@ export function Footer() {
             <ul className="mt-5 space-y-2 text-sm">
               <li>
                 <a
-                  href="mailto:envishonlabs3d@gmail.com"
+                  href="mailto:moisesjdelcastillo@gmail.com"
                   className="text-titanium transition-colors hover:text-accent"
                 >
-                  envishonlabs3d@gmail.com
+                  moisesjdelcastillo@gmail.com
                 </a>
               </li>
               <li>

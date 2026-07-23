@@ -48,13 +48,13 @@ const orgSchema = {
   "@type": "Organization",
   name: "FastForm Americas",
   // TODO: swap to the FastForm Americas domain + contact once provisioned.
-  email: "envishonlabs3d@gmail.com",
+  email: "moisesjdelcastillo@gmail.com",
   telephone: "+19803192013",
   areaServed: "Americas",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "sales",
-    email: "envishonlabs3d@gmail.com",
+    email: "moisesjdelcastillo@gmail.com",
     telephone: "+19803192013",
   },
 };
