@@ -16,6 +16,7 @@ const en: Dict = {
   lang: { aria: "Select language" },
   nav: {
     shop: "Shop",
+    about: "About",
     contact: "Contact",
     homeAria: "FastForm home",
     openCart: "Open cart",
@@ -74,6 +75,7 @@ const en: Dict = {
     title: "Machines on the floor",
     sub: "From the compact DeskFab to the FF-M420 — the full FastForm Americas lineup, ready to spec.",
     viewAll: "View all printers",
+    originLabel: "Part of the global FastForm brand",
   },
   cta: {
     kicker: "Let's talk hardware",
@@ -261,6 +263,7 @@ const es: Dict = {
   lang: { aria: "Seleccionar idioma" },
   nav: {
     shop: "Tienda",
+    about: "Nosotros",
     contact: "Contacto",
     homeAria: "Inicio de FastForm",
     openCart: "Abrir carrito",
@@ -319,6 +322,7 @@ const es: Dict = {
     title: "Máquinas en la planta",
     sub: "Desde la compacta DeskFab hasta la FF-M420: toda la línea de FastForm Americas, lista para cotizar.",
     viewAll: "Ver todas las impresoras",
+    originLabel: "Parte de la marca global FastForm",
   },
   cta: {
     kicker: "Hablemos de equipos",
@@ -506,6 +510,7 @@ const pt: Dict = {
   lang: { aria: "Selecionar idioma" },
   nav: {
     shop: "Loja",
+    about: "Sobre",
     contact: "Contato",
     homeAria: "Início da FastForm",
     openCart: "Abrir carrinho",
@@ -564,6 +569,7 @@ const pt: Dict = {
     title: "Máquinas no chão de fábrica",
     sub: "Da compacta DeskFab à FF-M420 — toda a linha da FastForm Americas, pronta para orçar.",
     viewAll: "Ver todas as impressoras",
+    originLabel: "Parte da marca global FastForm",
   },
   cta: {
     kicker: "Vamos falar de equipamentos",

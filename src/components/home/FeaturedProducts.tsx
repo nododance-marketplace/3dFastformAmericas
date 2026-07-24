@@ -60,6 +60,21 @@ export function FeaturedProducts() {
           </div>
         </Link>
       </Reveal>
+
+      {/* Attribution to the global FastForm brand (the manufacturer). */}
+      <Reveal delay={80}>
+        <p className="mt-6 text-center text-[13px] text-graphite">
+          {t("featured.originLabel")} ·{" "}
+          <a
+            href="https://fastform3d.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-accent underline-offset-4 transition-colors hover:text-titanium hover:underline"
+          >
+            fastform3d.com
+          </a>
+        </p>
+      </Reveal>
     </section>
   );
 }

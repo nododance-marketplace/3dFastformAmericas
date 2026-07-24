@@ -11,6 +11,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 const NAV = [
   { href: "/shop", label: "nav.shop" },
+  { href: "/about", label: "nav.about" },
   { href: "/contact", label: "nav.contact" },
 ];
 
