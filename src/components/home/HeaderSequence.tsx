@@ -10,21 +10,27 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *  dissolve to solid blue, scrubbed by scroll.
  *
  *  Fit: COVER on landscape (desktop) so it fills edge to edge; CONTAIN on
- *  portrait (mobile) so the whole machine fits the 9:16 screen instead of being
- *  cropped/zoomed. The sticky background tracks each frame's edge colour, so the
- *  contain letterbox is invisible (white → blue) and the blue final frame flows
- *  seamlessly into the <AmericasSection> below.
+ *  portrait (mobile) so the whole machine fits the 9:16 screen. On mobile the
+ *  letterbox backdrop stays white and then eases smoothly into the final blue
+ *  as you scroll — flowing seamlessly into the <AmericasSection> below.
  * ─────────────────────────────────────────────────────────────────────────
  */
 
 const FRAME_COUNT = 70;
 /** Solid blue the sequence ends on — kept in sync with <AmericasSection>. */
 export const SEQUENCE_END_BLUE = "#2c4a86";
+const END_RGB = [44, 74, 134]; // #2c4a86
 const framePath = (i: number) =>
   `/header-rotation/frame-${String(i + 1).padStart(2, "0")}.jpg`;
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.max(lo, Math.min(hi, v));
+
+/** Smooth 0→1 ramp between edges a and b. */
+const smoothstep = (a: number, b: number, x: number) => {
+  const t = clamp((x - a) / (b - a), 0, 1);
+  return t * t * (3 - 2 * t);
+};
 
 export function HeaderSequence() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -32,8 +38,6 @@ export function HeaderSequence() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
-  const edgeRef = useRef<string[]>([]); // per-frame edge colour for the letterbox
-  const sampleCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const frameRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const [loaded, setLoaded] = useState(0);
@@ -58,10 +62,16 @@ export function HeaderSequence() {
       canvas.height = Math.round(ch * dpr);
     }
 
-    // Match the sticky backdrop to this frame's edge so the contain letterbox
-    // (and any sub-pixel gaps) blend in — white early, blue at the end.
-    const edge = edgeRef.current[frameRef.current];
-    if (edge && stickyRef.current) stickyRef.current.style.backgroundColor = edge;
+    // Mobile letterbox backdrop: stay white, then ease into the final blue over
+    // the back half of the sequence (no per-frame colour flashing).
+    if (stickyRef.current) {
+      const progress = frameRef.current / (FRAME_COUNT - 1);
+      const t = smoothstep(0.5, 1, progress);
+      const r = Math.round(255 + (END_RGB[0] - 255) * t);
+      const g = Math.round(255 + (END_RGB[1] - 255) * t);
+      const b = Math.round(255 + (END_RGB[2] - 255) * t);
+      stickyRef.current.style.backgroundColor = `rgb(${r},${g},${b})`;
+    }
 
     const portrait = ch >= cw; // phones / narrow tablets
     const scale = portrait
@@ -83,35 +93,14 @@ export function HeaderSequence() {
     });
   }, [draw]);
 
-  // Sample a frame's top-left colour (the background) for its letterbox fill.
-  const sampleEdge = useCallback((img: HTMLImageElement, i: number) => {
-    let oc = sampleCanvasRef.current;
-    if (!oc) {
-      oc = document.createElement("canvas");
-      oc.width = 1;
-      oc.height = 1;
-      sampleCanvasRef.current = oc;
-    }
-    try {
-      const octx = oc.getContext("2d", { willReadFrequently: true });
-      if (!octx) return;
-      octx.drawImage(img, 0, 0, 8, 8, 0, 0, 1, 1);
-      const d = octx.getImageData(0, 0, 1, 1).data;
-      edgeRef.current[i] = `rgb(${d[0]},${d[1]},${d[2]})`;
-    } catch {
-      /* ignore */
-    }
-  }, []);
-
   // Preload frames (handlers before src + already-complete handling).
   useEffect(() => {
     let mounted = true;
     let count = 0;
     const imgs: HTMLImageElement[] = new Array(FRAME_COUNT);
     imagesRef.current = imgs;
-    const onReady = (img: HTMLImageElement, i: number) => {
+    const onReady = (i: number) => {
       if (!mounted) return;
-      if (img.naturalWidth > 0) sampleEdge(img, i);
       count += 1;
       setLoaded(count);
       if (i === frameRef.current) scheduleDraw();
@@ -119,16 +108,16 @@ export function HeaderSequence() {
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new window.Image();
       img.decoding = "async";
-      img.onload = () => onReady(img, i);
-      img.onerror = () => onReady(img, i);
+      img.onload = () => onReady(i);
+      img.onerror = () => onReady(i);
       img.src = framePath(i);
       imgs[i] = img;
-      if (img.complete && img.naturalWidth > 0) onReady(img, i);
+      if (img.complete && img.naturalWidth > 0) onReady(i);
     }
     return () => {
       mounted = false;
     };
-  }, [scheduleDraw, sampleEdge]);
+  }, [scheduleDraw]);
 
   // Redraw when the canvas gets a real size.
   useEffect(() => {
