@@ -34,14 +34,14 @@ export default function ContactPage() {
               <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-accent/30">
                 <Image
                   src="/team/founder.jpg"
-                  alt="Moisés Castillo"
+                  alt="Moisés del Castillo"
                   fill
                   sizes="64px"
                   className="object-cover"
                 />
               </div>
               <div>
-                <p className="font-heading text-titanium">Moisés Castillo</p>
+                <p className="font-heading text-titanium">Moisés del Castillo</p>
                 <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
                   <T k="about.role" />
                 </p>
