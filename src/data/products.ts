@@ -514,6 +514,62 @@ export const products: Product[] = [
     featured: true,
   },
 
+  {
+    // Third-party listing — the atomizer stays an Envishon product (see
+    // `thirdParty`). It closes the loop for the printer line: make your own
+    // powder, then print it. Unconfirmed figures (per-model dimensions/weight)
+    // are intentionally NOT published — see public/products/Atomizer/SOURCE.md.
+    slug: "en-atomizer",
+    name: "EN-Atomizer",
+    category: "Powder Production",
+    specLine:
+      "4–100 kg gold capacity · 1600–2200 °C · 80#–400# adjustable grit · vacuum atomization",
+    priceCents: null,
+    inquiryOnly: true,
+    description:
+      "Make your own feedstock. The EN-Atomizer melts precious metal and atomizes it into fine, spherical powder in a single one-key cycle — so your SLM and MIM work stops waiting on the powder market. Gold, K-gold, silver, copper and custom alloys all run on the same machine, with particle size adjustable from 80# down to 400#. It's built for small, high-purity batches: melting runs at up to 1600–2200 °C with ±1 °C control under a nitrogen or argon blanket and full vacuum to keep the powder clean, while a Siemens PLC with a POKA-YOKE foolproof system runs the cycle end to end. Available from a 4 kg benchtop vacuum unit up to a 100 kg floor-standing production system — sold and supported by Envishon.",
+    highlights: [
+      "Own your feedstock — produce the exact alloy you need instead of buying what's in stock",
+      "Built for small batches — economical down to 4 kg runs large plants can't justify",
+      "High purity — vacuum + inert-gas blanketing keeps cross-contamination out",
+      "Adjustable particle size — 80#–200# and 300#–400# grit ranges from one machine",
+      "One-key operation with a POKA-YOKE foolproof system",
+      "±1 °C temperature accuracy at up to 1600–2200 °C",
+      "Scales with you — 4, 8, 30, 50 and 100 kg gold capacities",
+      "Runs precious metals — gold, K-gold, silver, copper and custom alloys",
+    ],
+    specs: [
+      { label: "Process", value: "Vacuum melting & atomization" },
+      { label: "Models", value: "EN-A4 / EN-A8 / EN-A30 / EN-A50 / EN-A100" },
+      { label: "Gold Capacity", value: "4 / 8 / 30 / 50 / 100 kg" },
+      { label: "Max Temperature", value: "1600 °C / 2200 °C" },
+      { label: "Temperature Accuracy", value: "±1 °C" },
+      {
+        label: "Particle Grit",
+        value: "80#, 100#, 200# adjustable (80#–200#, 300#–400#)",
+      },
+      { label: "Melting Time", value: "3–5 min (4 kg) to 20–30 min (100 kg)" },
+      { label: "Power Supply", value: "380 V, 50/60 Hz, three phase" },
+      { label: "Rated Power", value: "15 kW – 50 kW (by model)" },
+      { label: "Suitable Materials", value: "K-gold, gold, silver, copper, alloys" },
+      {
+        label: "Operation",
+        value: "One-key full cycle; POKA-YOKE foolproof system",
+      },
+      { label: "Control System", value: "Siemens PLC + Weinview touch-screen" },
+      { label: "Inert Gas", value: "Nitrogen / argon" },
+      { label: "Vacuum", value: "High-quality vacuum pump, -100 kPa" },
+      { label: "Cooling", value: "Water chiller (sold separately)" },
+    ],
+    images: ["/products/en-atomizer.jpg"],
+    thirdParty: {
+      brand: "Envishon",
+      site: "envishon3d.com",
+      url: "https://envishon3d.com/platforms/en-atomizer",
+      logo: "/brand/en-emblem.png",
+    },
+  },
+
 ];
 
 /** Format a price in cents as USD, e.g. 5900000 → "$59,000". */

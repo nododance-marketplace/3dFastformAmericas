@@ -111,6 +111,22 @@ const esProducts: Record<string, ProductCopy> = {
       "Ejecuta el corte y control FastForm, como el resto de la línea",
     ],
   },
+  "en-atomizer": {
+    specLine:
+      "Capacidad 4–100 kg de oro · 1600–2200 °C · grano ajustable 80#–400# · atomización al vacío",
+    description:
+      "Produce tu propio polvo. El EN-Atomizer funde metal precioso y lo atomiza en polvo esférico fino en un solo ciclo de una tecla — para que tu trabajo de SLM y MIM deje de depender del mercado de polvos. Oro, oro K, plata, cobre y aleaciones personalizadas se procesan en la misma máquina, con tamaño de partícula ajustable de 80# hasta 400#. Está hecho para lotes pequeños de alta pureza: la fusión llega hasta 1600–2200 °C con control de ±1 °C bajo una atmósfera de nitrógeno o argón y vacío total para mantener el polvo limpio, mientras un PLC Siemens con sistema a prueba de errores POKA-YOKE ejecuta el ciclo de principio a fin. Disponible desde una unidad de vacío de sobremesa de 4 kg hasta un sistema de pie de producción de 100 kg — vendido y con soporte de Envishon.",
+    highlights: [
+      "Sé dueño de tu polvo — produce la aleación exacta que necesitas en lugar de comprar lo que hay en stock",
+      "Hecho para lotes pequeños — económico hasta en tiradas de 4 kg que las grandes plantas no pueden justificar",
+      "Alta pureza — el vacío + la atmósfera de gas inerte evitan la contaminación cruzada",
+      "Tamaño de partícula ajustable — rangos de grano 80#–200# y 300#–400# desde una sola máquina",
+      "Operación de una tecla con sistema a prueba de errores POKA-YOKE",
+      "Precisión de temperatura de ±1 °C hasta 1600–2200 °C",
+      "Escala contigo — capacidades de oro de 4, 8, 30, 50 y 100 kg",
+      "Procesa metales preciosos — oro, oro K, plata, cobre y aleaciones personalizadas",
+    ],
+  },
 };
 
 const ptProducts: Record<string, ProductCopy> = {
@@ -206,6 +222,22 @@ const ptProducts: Record<string, ProductCopy> = {
       "Roda o fatiamento e controle FastForm, como o resto da linha",
     ],
   },
+  "en-atomizer": {
+    specLine:
+      "Capacidade 4–100 kg de ouro · 1600–2200 °C · granulometria ajustável 80#–400# · atomização a vácuo",
+    description:
+      "Produza seu próprio pó. O EN-Atomizer funde metal precioso e o atomiza em pó esférico fino em um único ciclo de uma tecla — para que seu trabalho de SLM e MIM deixe de depender do mercado de pós. Ouro, ouro K, prata, cobre e ligas personalizadas são processados na mesma máquina, com tamanho de partícula ajustável de 80# até 400#. É feito para lotes pequenos de alta pureza: a fusão chega a 1600–2200 °C com controle de ±1 °C sob atmosfera de nitrogênio ou argônio e vácuo total para manter o pó limpo, enquanto um CLP Siemens com sistema à prova de erros POKA-YOKE executa o ciclo do início ao fim. Disponível de uma unidade de vácuo de bancada de 4 kg até um sistema de piso de produção de 100 kg — vendido e com suporte da Envishon.",
+    highlights: [
+      "Seja dono do seu pó — produza a liga exata de que precisa em vez de comprar o que há em estoque",
+      "Feito para lotes pequenos — econômico até em tiragens de 4 kg que as grandes plantas não conseguem justificar",
+      "Alta pureza — o vácuo + a atmosfera de gás inerte evitam a contaminação cruzada",
+      "Tamanho de partícula ajustável — faixas de granulometria 80#–200# e 300#–400# em uma única máquina",
+      "Operação de uma tecla com sistema à prova de erros POKA-YOKE",
+      "Precisão de temperatura de ±1 °C até 1600–2200 °C",
+      "Escala com você — capacidades de ouro de 4, 8, 30, 50 e 100 kg",
+      "Processa metais preciosos — ouro, ouro K, prata, cobre e ligas personalizadas",
+    ],
+  },
 };
 
 export const productMessages: Record<Locale, Record<string, ProductCopy>> = {
@@ -239,6 +271,11 @@ export const categoryMessages: Record<Locale, Record<string, CategoryCopy>> = {
       blurb:
         "Impresión de cobre con láser verde — refrigeración líquida, placas frías e intercambiadores de calor que no se pueden fundir ni mecanizar.",
     },
+    "Powder Production": {
+      label: "Producción de polvo",
+      blurb:
+        "Atomizadores que convierten metal precioso en tu propio polvo listo para imprimir — cierra el círculo del suministro.",
+    },
   },
   pt: {
     Desktop: {
@@ -260,6 +297,11 @@ export const categoryMessages: Record<Locale, Record<string, CategoryCopy>> = {
       label: "Térmico",
       blurb:
         "Impressão de cobre com laser verde — resfriamento líquido, placas frias e trocadores de calor que não dá para fundir ou usinar.",
+    },
+    "Powder Production": {
+      label: "Produção de pó",
+      blurb:
+        "Atomizadores que transformam metal precioso no seu próprio pó pronto para impressão — feche o ciclo do fornecimento.",
     },
   },
 };

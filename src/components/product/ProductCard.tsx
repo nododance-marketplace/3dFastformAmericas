@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { ProductImage } from "@/components/ui/ProductImage";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
@@ -10,10 +11,15 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 export function ProductCard({ product }: { product: Product }) {
   const { t, tp } = useI18n();
+  const tpBrand = product.thirdParty;
   return (
     <SpotlightCard
       as="article"
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-titanium/[0.07] bg-base-900/60 shadow-depth transition-colors duration-500 hover:border-titanium/15"
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-base-900/60 shadow-depth transition-colors duration-500 ${
+        tpBrand
+          ? "border-[#7c6bbf]/25 hover:border-[#7c6bbf]/45"
+          : "border-titanium/[0.07] hover:border-titanium/15"
+      }`}
     >
       {/* Whole card is the click target → product page. */}
       <Link
@@ -30,6 +36,23 @@ export function ProductCard({ product }: { product: Product }) {
           label={product.name}
           className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
+        {/* Third-party seller cue — subtly marks non-FastForm listings. */}
+        {tpBrand && (
+          <span className="pointer-events-none absolute left-3 top-3 z-[4] inline-flex items-center gap-1.5 rounded-md border border-[#7c6bbf]/35 bg-base/80 px-2 py-1 backdrop-blur">
+            {tpBrand.logo && (
+              <Image
+                src={tpBrand.logo}
+                alt=""
+                width={14}
+                height={16}
+                className="h-3.5 w-auto"
+              />
+            )}
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-titanium">
+              {t("thirdParty.soldBy", { brand: tpBrand.brand })}
+            </span>
+          </span>
+        )}
         {/* Top-corner model tag — decorative, clicks pass through to the card. */}
         <span className="pointer-events-none absolute right-3 top-3 z-[4] rounded-md border border-titanium/10 bg-base/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-titanium backdrop-blur">
           {product.slug.toUpperCase()}

@@ -81,6 +81,23 @@ export interface Product {
   /** Surface this product in the homepage "Featured" grid. */
   featured?: boolean;
   /**
+   * Marks this as a third-party listing sold under a different brand (e.g. the
+   * Envishon atomizer, which stays an Envishon product). Renders a subtle
+   * "Sold by <brand>" cue on the card and a source notice on the detail page —
+   * enough that shoppers can tell it isn't a first-party FastForm machine,
+   * without pulling it out of the grid.
+   */
+  thirdParty?: {
+    /** Seller / brand name, e.g. "Envishon". */
+    brand: string;
+    /** Display domain, e.g. "envishon3d.com". */
+    site: string;
+    /** Full URL of the seller's own listing for this product. */
+    url: string;
+    /** Optional small logo/emblem path under /public. */
+    logo?: string;
+  };
+  /**
    * Show the price as an anchor ("From $X") but route the CTA to a sales
    * conversation (Talk to Sales → /contact) instead of online checkout.
    * For bespoke, scoped engagements that you want to close on a call.

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { products, CATEGORY_META } from "@/data/products";
 import { ProductGallery } from "@/components/product/ProductGallery";
@@ -63,7 +64,9 @@ export function ProductDetail({ product }: { product: Product }) {
               {categoryLabel} · {product.slug.toUpperCase()}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-graphite">
-              FASTFORM // US
+              {product.thirdParty
+                ? `${product.thirdParty.brand.toUpperCase()} // PARTNER`
+                : "FASTFORM // US"}
             </span>
           </div>
         </div>
@@ -86,6 +89,33 @@ export function ProductDetail({ product }: { product: Product }) {
           <p className="mt-6 max-w-prose text-base leading-relaxed text-steel">
             {description}
           </p>
+
+          {/* Third-party source notice — this listing belongs to another brand. */}
+          {product.thirdParty && (
+            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-[#7c6bbf]/25 bg-[#7c6bbf]/[0.06] p-4">
+              {product.thirdParty.logo && (
+                <Image
+                  src={product.thirdParty.logo}
+                  alt={product.thirdParty.brand}
+                  width={28}
+                  height={32}
+                  className="mt-0.5 h-8 w-auto shrink-0"
+                />
+              )}
+              <p className="text-sm leading-relaxed text-steel">
+                {t("thirdParty.notice", { brand: product.thirdParty.brand })}{" "}
+                <a
+                  href={product.thirdParty.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-accent underline-offset-4 transition-colors hover:text-titanium hover:underline"
+                >
+                  {product.thirdParty.site}
+                </a>
+                .
+              </p>
+            </div>
+          )}
 
           {/* Inquiry CTA — no public pricing; quotes are handled by sales. */}
           <div className="mt-8 flex flex-wrap items-center gap-3">

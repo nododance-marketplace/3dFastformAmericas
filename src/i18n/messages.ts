@@ -77,6 +77,11 @@ const en: Dict = {
     viewAll: "View all printers",
     originLabel: "Part of the global FastForm brand",
   },
+  thirdParty: {
+    soldBy: "Sold by {brand}",
+    notice:
+      "Sold and supported by {brand}, a third-party partner. See the full listing at",
+  },
   cta: {
     kicker: "Let's talk hardware",
     title1: "Bring metal printing",
@@ -324,6 +329,11 @@ const es: Dict = {
     viewAll: "Ver todas las impresoras",
     originLabel: "Parte de la marca global FastForm",
   },
+  thirdParty: {
+    soldBy: "Vendido por {brand}",
+    notice:
+      "Vendido y con soporte de {brand}, un socio externo. Consulta la ficha completa en",
+  },
   cta: {
     kicker: "Hablemos de equipos",
     title1: "Lleva la impresión de metal",
@@ -570,6 +580,11 @@ const pt: Dict = {
     sub: "Da compacta DeskFab à FF-M420 — toda a linha da FastForm Americas, pronta para orçar.",
     viewAll: "Ver todas as impressoras",
     originLabel: "Parte da marca global FastForm",
+  },
+  thirdParty: {
+    soldBy: "Vendido por {brand}",
+    notice:
+      "Vendido e com suporte da {brand}, um parceiro terceiro. Veja a página completa em",
   },
   cta: {
     kicker: "Vamos falar de equipamentos",
