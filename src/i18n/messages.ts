@@ -72,6 +72,7 @@ const en: Dict = {
     kicker: "Featured",
     chip: "SEC 03 · SLM LINE",
     title: "Machines on the floor",
+    sub: "From the compact DeskFab to the FF-M420 — the full FastForm Americas lineup, ready to spec.",
     viewAll: "View all printers",
   },
   cta: {
@@ -316,6 +317,7 @@ const es: Dict = {
     kicker: "Destacados",
     chip: "SEC 03 · LÍNEA SLM",
     title: "Máquinas en la planta",
+    sub: "Desde la compacta DeskFab hasta la FF-M420: toda la línea de FastForm Americas, lista para cotizar.",
     viewAll: "Ver todas las impresoras",
   },
   cta: {
@@ -560,6 +562,7 @@ const pt: Dict = {
     kicker: "Destaques",
     chip: "SEC 03 · LINHA SLM",
     title: "Máquinas no chão de fábrica",
+    sub: "Da compacta DeskFab à FF-M420 — toda a linha da FastForm Americas, pronta para orçar.",
     viewAll: "Ver todas as impressoras",
   },
   cta: {
